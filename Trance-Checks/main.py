@@ -78,6 +78,7 @@ def playlist_to_tracks(playlist):
         artists = sanitize_artists(artists)
 
         tracks.append({
+            "id": track['id'],
             "title": title,
             "artists": artists
         })
@@ -121,16 +122,21 @@ def get_matches(main_playlist):
     main_tracks = playlist_tracks[main_playlist]
     matches = {}
     for playlist_name, tracks in playlist_tracks.items():
-        if playlist_name == main_playlist:
-            continue
-
-        matches[playlist_name] = []
+        matches[playlist_name] = {}
         for main_track in main_tracks:
+            main_id = main_track["id"]
+
             for track in tracks:
+                track_id = track["id"]
+
+                if playlist_name == main_playlist:
+                    if main_id == track_id or track_id + main_id in matches:
+                        continue
+
                 if main_track["title"] in track["title"]:
                     for artist in main_track["artists"]:
                         if artist in track["artists"]:
-                            matches[playlist_name].append((main_track, track))
+                            matches[playlist_name][main_id + track_id] = (main_track, track)
                             break
         
         if len(matches[playlist_name]) == 0:
@@ -145,7 +151,7 @@ def write_matches(main_playlist, matches):
     for playlist_name, matches in matches.items():
         lines.append(f"Matches for {playlist_name}:")
 
-        for match in matches:
+        for match in matches.values():
             main_track = match[0]
             track = match[1]
             lines.append(f"{main_track['title']} VS {track['title']} || {main_track['artists']} VS {track['artists']}")
