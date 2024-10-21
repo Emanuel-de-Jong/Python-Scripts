@@ -121,6 +121,8 @@ def create_playlists():
 def get_matches(main_playlist):
     main_tracks = playlist_tracks[main_playlist]
     matches = {}
+    seen_pairs = set()
+
     for playlist_name, tracks in playlist_tracks.items():
         matches[playlist_name] = {}
         for main_track in main_tracks:
@@ -128,15 +130,16 @@ def get_matches(main_playlist):
 
             for track in tracks:
                 track_id = track["id"]
+                track_pair = frozenset([main_id, track_id])
 
-                if playlist_name == main_playlist:
-                    if main_id == track_id or track_id + main_id in matches:
-                        continue
+                if main_id == track_id or track_pair in seen_pairs:
+                    continue
 
                 if main_track["title"] in track["title"]:
                     for artist in main_track["artists"]:
                         if artist in track["artists"]:
                             matches[playlist_name][main_id + track_id] = (main_track, track)
+                            seen_pairs.add(track_pair)
                             break
         
         if len(matches[playlist_name]) == 0:
