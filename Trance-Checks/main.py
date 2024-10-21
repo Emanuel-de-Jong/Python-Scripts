@@ -40,6 +40,9 @@ intentionally_deleted_tracks = [
     "Jerome Isma-Ae, Weekend Heroes - In The Dark - Extended Mix",
     "Armin van Buuren - Space Case - Extended Mix",
     "Lost Emotions, Anthya - Heal - Mike van Fabio Remix",
+    "M6 - Fade 2 Black - Original Mix",
+    "Paul van Dyk - Words",
+    "Majai, Alex M.O.R.P.H. - Phoria (ASOT 1151) - Alex M.O.R.P.H. Remix",
 ]
 
 def get_local_playlist(playlist_name):
@@ -227,7 +230,7 @@ def find_dupes():
     os.makedirs("results", exist_ok=True)
     with open(f"results/dupes.txt", "w") as f:
         for line in lines:
-            print(line)
+            # print(line)
             f.write(f"{line}\n")
 
 def find_missing():
@@ -241,7 +244,7 @@ def find_missing():
     os.makedirs("results", exist_ok=True)
     with open(f"results/missing.txt", "w") as f:
         for line in lines:
-            print(line)
+            # print(line)
             f.write(f"{line}\n")
 
 def find_not_album():
@@ -263,12 +266,10 @@ def find_not_album():
     os.makedirs("results", exist_ok=True)
     with open(f"results/not_album.txt", "w") as f:
         for line in lines:
-            print(line)
+            # print(line)
             f.write(f"{line}\n")
 
 if __name__ == "__main__":
-    # find_dupes()
-    # print("\n\n\n\n")
-    # find_missing()
-    # print("\n\n\n\n")
+    find_dupes()
+    find_missing()
     find_not_album()
