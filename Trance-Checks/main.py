@@ -19,7 +19,6 @@ playlist_ids = {
     "upbeat": "https://open.spotify.com/playlist/2aRDR4WJr9AoOyP7F9my0Q",
     "downbeat": "https://open.spotify.com/playlist/5t9rSDRlAGpivgRnydqL7c",
     "uplifting": "https://open.spotify.com/playlist/0D7KTFSRmsJDofhdkhEBCk",
-    "temp_vocal": "https://open.spotify.com/playlist/13Lq2Y3hAy8aEzlzWEZ3fC",
 }
 
 playlists = {}
@@ -39,6 +38,8 @@ intentionally_deleted_tracks = [
     "Armin van Buuren, Trevor Guthrie - This Is What It Feels Like - Armin van Buuren 2023 Remix",
     "Paul Denton - Tremor",
     "Jerome Isma-Ae, Weekend Heroes - In The Dark - Extended Mix",
+    "Armin van Buuren - Space Case - Extended Mix",
+    "Lost Emotions, Anthya - Heal - Mike van Fabio Remix",
 ]
 
 def get_local_playlist(playlist_name):
@@ -232,5 +233,6 @@ def find_missing():
             f.write(f"{line}\n")
 
 if __name__ == "__main__":
-    # find_dupes()
+    find_dupes()
+    print("\n\n\n\n")
     find_missing()
