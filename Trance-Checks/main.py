@@ -76,11 +76,14 @@ def playlist_to_tracks(playlist):
         title = sanitize_title(title)
         artists = [artist['name'] for artist in track['artists']]
         artists = sanitize_artists(artists)
+        album = track['album']['name']
+        album = sanitize_title(album)
 
         tracks.append({
             "id": track['id'],
             "title": title,
-            "artists": artists
+            "artists": artists,
+            "album": album
         })
 
     return tracks
@@ -241,7 +244,31 @@ def find_missing():
             print(line)
             f.write(f"{line}\n")
 
+def find_not_album():
+    create_playlists()
+
+    not_album_tracks = {}
+    for playlist_name, tracks in playlist_tracks.items():
+        not_album_tracks[playlist_name] = []
+        for track in tracks:
+            if track['title'] not in track['album']:
+                not_album_tracks[playlist_name].append(track)
+    
+    lines = []
+    for playlist_name, tracks in not_album_tracks.items():
+        lines.append(f"\n{playlist_name}:")
+        for track in tracks:
+            lines.append(f"{track['title']} || {track['album']}")
+    
+    os.makedirs("results", exist_ok=True)
+    with open(f"results/not_album.txt", "w") as f:
+        for line in lines:
+            print(line)
+            f.write(f"{line}\n")
+
 if __name__ == "__main__":
-    find_dupes()
-    print("\n\n\n\n")
-    find_missing()
+    # find_dupes()
+    # print("\n\n\n\n")
+    # find_missing()
+    # print("\n\n\n\n")
+    find_not_album()
